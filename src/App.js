@@ -235,7 +235,7 @@ function App() {
     setError('');
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/ai/res/?question=${encodeURIComponent(userInput)}`, {
+      const response = await fetch(`http://65.0.135.230/?question=${encodeURIComponent(userInput)}`, {
         method: 'GET',
       });
 
