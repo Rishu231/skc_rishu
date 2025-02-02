@@ -237,6 +237,7 @@ function App() {
     try {
       const response = await fetch(`https://65.0.135.230/?question=${encodeURIComponent(userInput)}`, {
         method: 'GET',
+        mode: 'no-cors',
       });
 
       if (!response.ok) {
