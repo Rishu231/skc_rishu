@@ -235,7 +235,7 @@ function App() {
     setError('');
 
     try {
-      const response = await fetch(`http://65.0.135.230/?question=${encodeURIComponent(userInput)}`, {
+      const response = await fetch(`http://127.0.0.1:5000/ai?question=${encodeURIComponent(userInput)}`, {
         method: 'GET',
         // mode: 'no-cors',
         rejectUnauthorized: false
