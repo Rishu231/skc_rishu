@@ -1,38 +1,188 @@
-.App {
-  text-align: center;
+/* Reset and basic styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Prevent unwanted scrolling */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+  background: #f0f2f5; /* Light background for the entire app */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Full-screen container */
+.container-screen {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  height: 100vh; /* Full screen height */
+  background: #f0f2f5; /* Light background */
+}
+
+/* Header - fixed at the top */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
   color: white;
+  background: transparent;
+  /*linear-gradient(135deg, #e3e4f8, #8f94fb);  Gradient background */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  z-index: 10; /* Ensure it stays on top */
 }
 
-.App-link {
-  color: #61dafb;
+/* Body - scrollable content */
+.body {
+  
+  margin-top: 80px; /* Space for the fixed header */
+  margin-bottom: 80px; /* Space for the fixed footer */
+  overflow-y: auto; /* Make the body scrollable */
+  padding: 20px; /* Inner padding for content */
+  background: #ffffff; /* White background for messages */
+  border-radius: 12px; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  scroll-behavior: smooth; /* Smooth scrolling */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Footer - fixed at the bottom */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  background: transparent;
+  /*linear-gradient(135deg, #dbddf7, #8f94fb);  Gradient background */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10; /* Ensure it stays on top of content */
+  gap: 10px;
+  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Footer Button and Voice Controls */
+.voice-controls {
+  display: flex;
+  gap: 20px;
+}
+
+.voice-controls button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 32px;
+  color: white;
+  transition: transform 0.2s ease-in-out, color 0.3s ease-in-out;
+}
+
+.voice-controls button:hover {
+  transform: scale(1.2);
+  color: #ffd700; /* Gold color on hover */
+}
+
+/* Input Area for Text Message in Footer */
+.input-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex: 1; /* Take up remaining space */
+}
+
+.input-controls input {
+  padding: 12px;
+  width: 100%; /* Full width */
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+  transition: border-color 0.3s ease-in-out;
+}
+
+.input-controls input:focus {
+  border-color: #0611f3; /* Highlight on focus */
+}
+
+.input-controls button {
+  padding: 12px 20px;
+  background-color: #4caf50; /* Green button */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.input-controls button:hover {
+  background-color: #388e3c; /* Darker green on hover */
+}
+
+/* Messages Styling */
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px;
+}
+
+.message {
+  padding: 12px 16px;
+  border-radius: 12px;
+  max-width: 70%;
+  word-wrap: break-word;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* User Answer */
+.user {
+  background: #ff9800; /* Orange for user messages */
+  color: white;
+  align-self: flex-start;
+}
+
+/* Bot Response */
+.bot {
+  background: #673ab7; /* Purple for bot messages */
+  color: white;
+  align-self: flex-end;
+}
+
+/* Scrollbar customization */
+.messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background: #673ab7; /* Purple scrollbar */
+  border-radius: 10px;
+}
+
+/* Error Message Styling */
+.error {
+  color: #ff4444; /* Red for errors */
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* Listening Indicator */
+.listening-indicator {
+  text-align: center;
+  font-size: 14px;
+  color: #4caf50; /* Green for listening state */
+  margin-top: 10px;
 }
