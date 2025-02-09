@@ -11,6 +11,8 @@ html, body {
   overflow: hidden; /* Prevent unwanted scrolling */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
   background: #f0f2f5; /* Light background for the entire app */
+  overflow: auto; /* Allow scrolling */
+  margin-bottom: 90px;
 }
 
 /* Full-screen container */
@@ -23,7 +25,6 @@ html, body {
 
 /* Header - fixed at the top */
 .header {
-  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -33,9 +34,10 @@ html, body {
   font-weight: bold;
   color: white;
   background: transparent;
+
   /*linear-gradient(135deg, #e3e4f8, #8f94fb);  Gradient background */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  z-index: 10; /* Ensure it stays on top */
+ 
 }
 
 /* Body - scrollable content */
