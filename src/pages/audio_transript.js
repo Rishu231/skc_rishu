@@ -1,83 +1,69 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 
 const SpeechToText = () => {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState([]);
-  const [currentText, setCurrentText] = useState("");
+  const recognitionRef = useRef(null);
   const silenceTimer = useRef(null);
 
-  let recognition;
-
-  if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
+  if (!recognitionRef.current && ("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognition = new SpeechRecognition();
-    recognition.continuous = true;
-    recognition.interimResults = true;
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true; // Keeps listening until manually stopped
+    recognition.interimResults = false; // Only final results
     recognition.lang = "en-US";
 
     recognition.onresult = (event) => {
-      clearTimeout(silenceTimer.current); // Reset silence timer
-      let finalText = "";
-      for (let i = 0; i < event.results.length; i++) {
-        finalText = event.results[i][0].transcript + " ";
-      }
-      setCurrentText(finalText);
+      clearTimeout(silenceTimer.current);
+      const newText = event.results[event.results.length - 1][0].transcript.trim();
+      
+      setTranscript((prev) => [...prev, newText]);
 
-      // Start silence detection timer (3 seconds)
+      // Move to next line after 3 seconds of silence
       silenceTimer.current = setTimeout(() => {
-        if (finalText.trim() !== "") {
-          setTranscript((prev) => [...prev, finalText.trim()]);
-          setCurrentText("");
-        }
+        setTranscript((prev) => [...prev, ""]); // Adds a blank line to separate sentences
       }, 3000);
     };
 
     recognition.onerror = (event) => {
       console.error("Speech recognition error", event.error);
     };
-  } else {
-    alert("Your browser does not support speech recognition.");
+
+    recognitionRef.current = recognition;
   }
 
   const startListening = () => {
-    if (recognition) {
+    if (recognitionRef.current && !isListening) {
       setIsListening(true);
-      recognition.start();
+      recognitionRef.current.start();
     }
   };
 
   const stopListening = () => {
-    if (recognition) {
+    if (recognitionRef.current && isListening) {
       setIsListening(false);
-      recognition.stop();
+      recognitionRef.current.stop();
       clearTimeout(silenceTimer.current);
-      if (currentText.trim() !== "") {
-        setTranscript((prev) => [...prev, currentText.trim()]);
-        setCurrentText("");
-      }
     }
   };
 
   const clearText = () => {
     setTranscript([]);
-    setCurrentText("");
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(transcript.join("\n") + (currentText ? "\n" + currentText : ""));
+    navigator.clipboard.writeText(transcript.join("\n"));
     alert("Text copied to clipboard!");
   };
 
   const sendToAPI = async () => {
-    const textToSend = transcript.join("\n") + (currentText ? "\n" + currentText : "");
-    
+    const textToSend = transcript.join("\n");
+
     try {
       const response = await fetch("https://your-api-endpoint.com/save-text", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: textToSend }),
       });
 
@@ -119,7 +105,6 @@ const SpeechToText = () => {
         {transcript.map((line, index) => (
           <p key={index}>{line}</p>
         ))}
-        <p style={{ fontStyle: "italic", color: "gray" }}>{currentText}</p>
       </div>
     </div>
   );
