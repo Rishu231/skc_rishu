@@ -121,12 +121,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Chat from './pages/VoiceChat.js'; 
+import Atscript from './pages/audio_transript.js'; 
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Chat />} />
+        <Route path="/tscript" element={<Atscript />} />
       </Routes>
     </Router>
   );
